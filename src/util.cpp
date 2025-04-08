@@ -1,5 +1,9 @@
+#ifndef UTIL_CPP
+#define UTIL_CPP
+
 #include "td/telegram/td_api.h"
 #include "td/telegram/td_api.hpp"
+#include <algorithm>
 
 namespace detail {
 template <class... Fs>
@@ -43,3 +47,25 @@ void log_error(Object& obj) {
     auto& err = (td_api::error&) *obj;
     std::cout << "Error: [" << err.code_ << "] " << err.message_ << "\n";
 }
+
+// trim from start (in place)
+inline void ltrim(std::string &s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+        return !std::isspace(ch);
+    }));
+}
+
+// trim from end (in place)
+inline void rtrim(std::string &s) {
+    s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+        return !std::isspace(ch);
+    }).base(), s.end());
+}
+
+// trim from both ends (in place)
+inline void trim(std::string &s) {
+    rtrim(s);
+    ltrim(s);
+}
+
+#endif

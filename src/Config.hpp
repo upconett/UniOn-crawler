@@ -11,12 +11,12 @@ public:
     const unsigned long api_id;
 
     static Config read(const std::string& env_path) {
-        DotEnvParser p(env_path);
+        DotEnvParser parser(env_path);
         return Config(
-            p.get_str("PHONE_NUMBER"),
-            p.get_str("PASSWORD"),
-            p.get_str("API_HASH"),
-            p.get_ulong("API_ID")
+            parser.get_str("PHONE_NUMBER"),
+            parser.get_str("PASSWORD"),
+            parser.get_str("API_HASH"),
+            parser.get_ulong("API_ID")
         );
     }
 

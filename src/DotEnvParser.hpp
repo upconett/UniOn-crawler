@@ -4,6 +4,8 @@
 #include <exception>
 #include <optional>
 
+#include "util.cpp"
+
 
 class exception_with_message : public std::exception {
 public:
@@ -36,12 +38,16 @@ class DotEnvParser {
             if (line[i] == '=') { eq_index = i; }
         }
 
-        if (ht_index < eq_index || eq_index == -1) {
-            return; // equality commented or not presented
+        if (eq_index == -1) {
+            return; // equality not presented
         }
 
+        int len_of_value = min(line.size(), ht_index) - (eq_index+1);
+
         key = line.substr(0, eq_index);
-        value = line.substr(eq_index+1, min(line.size(), ht_index));
+        value = line.substr(eq_index+1, len_of_value);
+
+        trim(key); trim(value);
 
         if (key.size() > 0 && value.size() > 0) {
             records[key] = value;
