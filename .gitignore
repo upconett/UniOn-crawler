@@ -1,0 +1,6 @@
+CMakeFiles
+.vscode
+build
+lib
+.env
+*.out
